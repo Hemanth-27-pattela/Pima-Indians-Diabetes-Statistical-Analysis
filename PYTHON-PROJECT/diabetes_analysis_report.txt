@@ -1,0 +1,155 @@
+======================================================================
+   PIMA INDIANS DIABETES - STATISTICAL ANALYSIS REPORT
+======================================================================
+   Student  : PATTELA HEMANTH
+   Reg No   : AP24110010671
+   Section  : E
+   Subject  : CSE 205 - Hands on with Python
+   Project  : 5 - Pima Indians Diabetes Statistical Analysis
+======================================================================
+
+----------------------------------------------------------------------
+SECTION 1: DATASET OVERVIEW
+----------------------------------------------------------------------
+  Dataset    : Pima Indians Diabetes Dataset
+  Source     : https://www.kaggle.com/datasets/uciml/pima-indians-diabetes-database
+  Total Rows : 768
+  Columns    : 13
+  Features   : Pregnancies, Glucose, BloodPressure, SkinThickness, Insulin, BMI, DiabetesPedigreeFunction, Age, Outcome, BMI_Glucose_Index, Insulin_Glucose_Ratio, Age_Risk_Level, High_Risk
+  Outcome 0  : 500 (Non-Diabetic)
+  Outcome 1  : 268 (Diabetic)
+  Diabetes Prevalence : 34.90%
+
+----------------------------------------------------------------------
+SECTION 2: MISSING VALUE HANDLING
+----------------------------------------------------------------------
+  Columns treated for zero-as-missing: Glucose, BloodPressure,
+  SkinThickness, Insulin, BMI.
+  Zeros replaced with manually computed column medians.
+  Remaining NaN values: 0
+
+----------------------------------------------------------------------
+SECTION 3: ENGINEERED FEATURES (NEW COLUMNS)
+----------------------------------------------------------------------
+  i)  BMI_Glucose_Index     = (BMI * Glucose) / 100
+  ii) Insulin_Glucose_Ratio = Insulin / Glucose
+  iii)Age_Risk_Level         = Young / Middle-Aged / Senior
+  BMI_Glucose_Index   → Mean=39.967, Min=11.000, Max=106.920
+  Insulin_Glucose_Ratio → Mean=1.1566
+  Age_Risk_Level distribution: {'Young': 396, 'Middle-Aged': 291, 'Senior': 81}
+
+----------------------------------------------------------------------
+SECTION 4: HIGH-RISK FLAG ANALYSIS
+----------------------------------------------------------------------
+  Condition: (Glucose > 140) OR (BMI > 30) OR (Age > 50)
+  High-Risk Patients          : 545 (71.0%)
+  Non-High-Risk Patients      : 223
+  Diabetes Rate (High-Risk)   : 44.2%
+  Diabetes Rate (Non-HR)      : 12.1%
+
+----------------------------------------------------------------------
+SECTION 5: MANUAL STATISTICS (loops + recursion)
+----------------------------------------------------------------------
+  Column                      Mean    Median       Min       Max
+  ------------------------------------------------------------
+  Glucose                  121.656     117.0        44       199
+  BMI                       32.455      32.3      18.2      67.1
+  Age                       33.241      29.0        21        81
+  Insulin                  140.672     125.0        14       846
+  BloodPressure             72.387      72.0        24       122
+  Pregnancies                3.845       3.0         0        17
+  BMI_Glucose_Index         39.967    37.502      11.0    106.92
+
+----------------------------------------------------------------------
+SECTION 6: PANDAS STATISTICS
+----------------------------------------------------------------------
+          Glucose         BMI         Age     Insulin  BloodPressure  Pregnancies  BMI_Glucose_Index
+count  768.000000  768.000000  768.000000  768.000000     768.000000   768.000000         768.000000
+mean   121.656250   32.455208   33.240885  140.671875      72.386719     3.845052          39.966672
+std     30.438286    6.875177   11.760232   86.383060      12.096642     3.369578          14.696605
+min     44.000000   18.200000   21.000000   14.000000      24.000000     0.000000          11.000000
+25%     99.750000   27.500000   24.000000  121.500000      64.000000     1.000000          29.241000
+50%    117.000000   32.300000   29.000000  125.000000      72.000000     3.000000          37.501500
+75%    140.250000   36.600000   41.000000  127.250000      80.000000     6.000000          48.002500
+max    199.000000   67.100000   81.000000  846.000000     122.000000    17.000000         106.920000
+
+----------------------------------------------------------------------
+SECTION 7: GROUP STATISTICS BY OUTCOME
+----------------------------------------------------------------------
+
+  [Non-Diabetic] — 500 patients
+  Column                      Mean    Median       Min       Max
+  -------------------------------------------------------
+  Glucose                  110.682     107.5        44       197
+  BMI                       30.886      30.4      18.2      57.3
+  Age                        31.19      27.0        21        81
+  Insulin                  127.792     125.0        15       744
+  BloodPressure              70.92      72.0        24       122
+  Pregnancies                3.298       2.0         0        13
+  BMI_Glucose_Index         34.376    32.715      11.0    86.295
+
+  [Diabetic] — 268 patients
+  Column                      Mean    Median       Min       Max
+  -------------------------------------------------------
+  Glucose                  142.131     140.0        78       199
+  BMI                       35.384     34.25      22.9      67.1
+  Age                       37.067      36.0        21        70
+  Insulin                  164.701     125.0        14       846
+  BloodPressure             75.123      74.0        30       114
+  Pregnancies                4.866       4.0         0        17
+  BMI_Glucose_Index         50.396    48.945     24.18    106.92
+
+----------------------------------------------------------------------
+SECTION 8: GROUP STATISTICS BY AGE_RISK_LEVEL
+----------------------------------------------------------------------
+
+  Young (N=396):
+    Avg Glucose    : 114.63
+    Avg BMI        : 32.04
+    Avg Insulin    : 133.64
+    Diabetes Rate  : 21.2%
+
+  Middle-Aged (N=291):
+    Avg Glucose    : 126.2
+    Avg BMI        : 33.42
+    Avg Insulin    : 141.63
+    Diabetes Rate  : 50.2%
+
+  Senior (N=81):
+    Avg Glucose    : 139.68
+    Avg BMI        : 31.01
+    Avg Insulin    : 171.62
+    Diabetes Rate  : 46.9%
+
+----------------------------------------------------------------------
+SECTION 9: FUNCTIONAL PROGRAMMING (filter, map, reduce)
+----------------------------------------------------------------------
+  filter() → Rows with Insulin > 0   : 768
+  map()    → Insulin/Glucose ratios computed
+  reduce() → Sum of all ratios        : 888.2700
+             Average ratio            : 1.1566
+
+----------------------------------------------------------------------
+SECTION 10: UNIQUE VALUES (Using Sets)
+----------------------------------------------------------------------
+  Unique Outcomes         : [0, 1]
+  Unique Age_Risk_Levels  : ['Middle-Aged', 'Senior', 'Young']
+  Unique Pregnancies      : [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 17]
+  Unique Age values       : 52 distinct ages (range 21-81)
+
+----------------------------------------------------------------------
+SECTION 11: KEY INSIGHTS & CONCLUSIONS
+----------------------------------------------------------------------
+  1. Diabetes Prevalence  : 34.90% of the dataset
+  2. Glucose levels are significantly higher in diabetics:
+       Diabetic avg=142.13  vs  Non-Diabetic avg=110.68
+  3. BMI is higher in diabetic patients:
+       Diabetic avg=35.38  vs  Non-Diabetic avg=30.89
+  4. Diabetics tend to be older:
+       Diabetic avg age=37.07  vs  Non-Diabetic avg age=31.19
+  5. High-Risk patients have a diabetes rate of 44.2% vs 12.1% in non-high-risk group.
+  6. 768 patients had measurable insulin levels (Insulin > 0).
+
+======================================================================
+   END OF REPORT
+======================================================================
